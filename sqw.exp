@@ -1,0 +1,14 @@
+#!/usr/bin/expect
+
+spawn ssh -i cszo_key crawl@crawl.s-z.org
+
+    expect "Login" { send "l" }
+    expect "username" { send "USER\r" }
+    expect "password" { send "PASS\r" }
+    expect "T) Dungeon Crawl Stone Soup Trunk" { send "T" }
+for {set i 1} {$i < 900} {incr i 1} {
+    expect "P)lay Crawl" { send "P" }
+    expect "Trunk games don't count" { send "Y" }
+    expect -re "Welcome.*USER" { send "\r\t" }
+}
+interact
